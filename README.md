@@ -146,7 +146,9 @@ http://localhost:5000
 ## 👨‍💻 Author
 
 Chamikara Wijerathne
+
 Undergraduate | Information Systems Engineering
+
 Interested in Business Analysis, Project Management, and Data Analytics
 
 ---
