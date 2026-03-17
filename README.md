@@ -1,0 +1,2 @@
+# smart-bi-system
+Smart BI is a web based Business Intelligence and Decision Support System that analyzes uploaded sales datasets and generates insights automatically. It identifies sales trends, top performing products, customer purchase patterns, and revenue forecasts through an interactive dashboard with visual analytics.
