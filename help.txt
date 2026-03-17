@@ -1,0 +1,25 @@
+Use these in Windows Command Prompt (CMD), in this exact order:
+
+Go to project folder
+
+(Optional but recommended) Create virtual environment
+py -m venv .venv
+
+Activate virtual environment
+.venv\Scripts\activate
+
+Install dependencies
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+
+Make sure MySQL is running (service name may differ)
+net start MySQL80
+
+Initialize database/table
+python setup_mysql.py
+
+Run the app
+python app.py
+
+Open in browser
+http://127.0.0.1:5000/

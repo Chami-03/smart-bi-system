@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Dataset | SmartBI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <main class="upload-page-center">
+        <section class="card upload-standalone">
+            <h1>Smart Business Intelligence</h1>
+            <p>Upload your sales CSV to generate analytics and forecasts.</p>
+            <form id="uploadForm" class="upload-form">
+                <input id="datasetFile" name="file" type="file" accept=".csv" required>
+                <button class="btn btn-primary" type="submit">Upload Dataset</button>
+            </form>
+            <div id="uploadStatus" class="status-message"></div>
+            <a href="/dashboard" class="btn btn-secondary">Go to Dashboard</a>
+        </section>
+    </main>
+
+    <script>
+        const form = document.getElementById("uploadForm");
+        const status = document.getElementById("uploadStatus");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const fileInput = document.getElementById("datasetFile");
+            if (!fileInput.files.length) {
+                status.textContent = "Please select a CSV file.";
+                status.className = "status-message error";
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            status.textContent = "Uploading and processing dataset...";
+            status.className = "status-message";
+
+            try {
+                const response = await fetch("/upload-dataset", { method: "POST", body: formData });
+                const payload = await response.json();
+
+                if (!response.ok || !payload.success) {
+                    throw new Error(payload.message || "Upload failed");
+                }
+
+                status.textContent = "Dataset uploaded successfully. Redirecting to dashboard...";
+                status.className = "status-message success";
+                setTimeout(() => { window.location.href = "/dashboard"; }, 900);
+            } catch (error) {
+                status.textContent = error.message;
+                status.className = "status-message error";
+            }
+        });
+    </script>
+</body>
+</html>

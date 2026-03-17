@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBI Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="page-bg"></div>
+    <header class="app-header">
+        <div>
+            <h1>Smart Business Intelligence Dashboard</h1>
+            <p>Data driven decision support for sales analytics and forecasting</p>
+        </div>
+        <div class="header-actions">
+            <button id="exportPdfBtn" class="btn btn-outline">Export as PDF</button>
+            <button id="exportFilteredBtn" class="btn btn-outline" type="button">Export Filtered Chart Data</button>
+            <a class="btn btn-secondary" href="/download-processed-dataset">Download Processed Dataset</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card upload-card">
+            <h2>Upload Dataset</h2>
+            <p>Upload a CSV file with OrderID, Date, CustomerID, Product, Category, Quantity, and Price.</p>
+            <form id="uploadForm" class="upload-form">
+                <input id="datasetFile" name="file" type="file" accept=".csv" required>
+                <button class="btn btn-primary" type="submit">Upload and Process</button>
+                <button id="resetDatasetBtn" class="btn btn-outline" type="button">Reset Dataset</button>
+            </form>
+            <div id="uploadStatus" class="status-message"></div>
+            <div id="mappingReportPanel" class="mapping-report" hidden>
+                <h4>Detected Mapping</h4>
+                <div id="mappingReportContent"></div>
+            </div>
+        </section>
+
+        <section class="filters-grid">
+            <div class="card filter-card">
+                <h3>Filters</h3>
+                <div class="filter-controls">
+                    <label>
+                        From
+                        <input id="dateFrom" type="date">
+                    </label>
+                    <label>
+                        To
+                        <input id="dateTo" type="date">
+                    </label>
+                    <label>
+                        Category
+                        <select id="categoryFilter">
+                            <option value="">All</option>
+                        </select>
+                    </label>
+                    <label>
+                        Product
+                        <select id="productFilter">
+                            <option value="">All</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="filter-actions">
+                    <button id="applyFiltersBtn" class="btn btn-primary" type="button">Apply Filters</button>
+                    <button id="resetFiltersBtn" class="btn btn-outline" type="button">Reset</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="metrics-grid">
+            <article class="card metric-card">
+                <h3>Total Revenue</h3>
+                <p id="metricRevenue" class="metric-value">0</p>
+            </article>
+            <article class="card metric-card">
+                <h3>Total Orders</h3>
+                <p id="metricOrders" class="metric-value">0</p>
+            </article>
+            <article class="card metric-card">
+                <h3>Average Order Value</h3>
+                <p id="metricAov" class="metric-value">0</p>
+            </article>
+            <article class="card metric-card">
+                <h3>Revenue Growth</h3>
+                <p id="metricGrowth" class="metric-value">0%</p>
+            </article>
+            <article class="card metric-card">
+                <h3>Repeat Customer Rate</h3>
+                <p id="metricRepeatRate" class="metric-value">0%</p>
+            </article>
+        </section>
+
+        <section class="charts-grid">
+            <article class="card chart-card chart-card-small">
+                <div class="chart-card-header">
+                    <h3>Sales Trend</h3>
+                    <div class="chart-filters" id="salesTrendFilters">
+                        <select id="salesTrendYearFilter">
+                            <option value="">All Years</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <canvas id="salesTrendChart"></canvas>
+                </div>
+            </article>
+            <article class="card chart-card chart-card-small">
+                <div class="chart-card-header">
+                    <h3>Top Products by Revenue</h3>
+                    <div class="chart-filters" id="topProductsFilters">
+                        <input id="topProductsSearch" type="text" placeholder="Search product">
+                        <select id="topProductsLimit">
+                            <option value="5">Top 5</option>
+                            <option value="10" selected>Top 10</option>
+                            <option value="20">Top 20</option>
+                            <option value="50">Top 50</option>
+                            <option value="0">All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <canvas id="topProductsChart"></canvas>
+                </div>
+            </article>
+        </section>
+
+        <section class="insight-grid">
+            <article class="card insight-card">
+                <h3>Automated Insights</h3>
+                <ul id="insightsList"></ul>
+            </article>
+            <article class="card insight-card">
+                <h3>Dataset Summary Statistics</h3>
+                <div id="summaryStats" class="summary-stats"></div>
+            </article>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
