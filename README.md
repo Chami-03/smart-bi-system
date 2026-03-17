@@ -83,7 +83,7 @@ Smart-BI/
 1. Clone the repository
 
 ```
-git clone https://github.com/Chami-03/smart-bi.git
+git clone https://github.com/Chami-03/smart-bi-system.git
 cd smart-bi
 ```
 
